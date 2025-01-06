@@ -20,21 +20,23 @@ from spotify_dl.constants import DOWNLOAD_LIST
 def default_filename(**kwargs):
     """name without number"""
     if kwargs['artist'] and kwargs['album']:
-        return sanitize(
-            path.join(kwargs['artist'], kwargs['album'], f"{kwargs['artist']} - {kwargs['name']}"), "#"
+        return path.join(
+            sanitize(kwargs['artist'], '#'),
+            sanitize(kwargs['album'], '#'),
+            sanitize(f"{kwargs['artist']} - {kwargs['name']}", '#')
         )
     elif kwargs['artist']:
-        return sanitize(
-            path.join(kwargs['artist'], f"{kwargs['artist']} - {kwargs['name']}"), "#"
+        return path.join(
+            sanitize(kwargs['artist'], '#'),
+            sanitize(f"{kwargs['artist']} - {kwargs['name']}", '#')
         )
     elif kwargs['album']:
-        return sanitize(
-            path.join(kwargs['album'], f"{kwargs['name']}"), "#"
+        return path.join(
+            sanitize(kwargs['album'], '#'),
+            sanitize(f"{kwargs['name']}", '#')
         )
     else:
-        return sanitize(
-            f"{kwargs['name']}", "#"
-        )  # youtube-dl automatically replaces with #
+        return sanitize(f"{kwargs['name']}", "#")  # youtube-dl automatically replaces with #
 
 
 def playlist_num_filename(**kwargs):
