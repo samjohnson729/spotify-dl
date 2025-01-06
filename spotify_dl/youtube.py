@@ -350,8 +350,7 @@ def download_songs(**kwargs):
     reference_file = DOWNLOAD_LIST
     track_db = write_tracks(reference_file, kwargs["songs"])
     if not shutil._samefile(reference_file, kwargs["output_dir"] + "/" + reference_file):
-        shutil.copy(reference_file, kwargs["output_dir"] + "/" + reference_file)
-        os.remove(reference_file)
+        shutil.move(reference_file, kwargs["output_dir"] + "/" + reference_file)
     reference_file = str(kwargs["output_dir"]) + "/" + reference_file
     kwargs["reference_file"] = reference_file
     kwargs["track_db"] = track_db
