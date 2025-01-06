@@ -19,9 +19,22 @@ from spotify_dl.constants import DOWNLOAD_LIST
 
 def default_filename(**kwargs):
     """name without number"""
-    return sanitize(
-        f"{kwargs['artist']} - {kwargs['name']}", "#"
-    )  # youtube-dl automatically replaces with #
+    if kwargs['artist'] and kwargs['album']:
+        return sanitize(
+            path.join(kwargs['artist'], kwargs['album'], f"{kwargs['artist']} - {kwargs['name']}"), "#"
+        )
+    elif kwargs['artist']:
+        return sanitize(
+            path.join(kwargs['artist'], f"{kwargs['artist']} - {kwargs['name']}"), "#"
+        )
+    elif kwargs['album']:
+        return sanitize(
+            path.join(kwargs['album'], f"{kwargs['name']}"), "#"
+        )
+    else:
+        return sanitize(
+            f"{kwargs['name']}", "#"
+        )  # youtube-dl automatically replaces with #
 
 
 def playlist_num_filename(**kwargs):
@@ -183,7 +196,7 @@ def find_and_download_songs(kwargs):
             print(f"Initiating download for {query}.")
 
             file_name = kwargs["file_name_f"](
-                name=name, artist=artist, track_num=kwargs["track_db"][i].get("playlist_num")
+                name=name, artist=artist, album=album, track_num=kwargs["track_db"][i].get("playlist_num")
             )
 
             if kwargs["use_sponsorblock"][0].lower() == "y":
@@ -199,6 +212,9 @@ def find_and_download_songs(kwargs):
                     },
                 ]
             save_path = kwargs["track_db"][i]["save_path"]
+            song_dir = '/'.join(file_name.split('/')[:-1])
+            if not path.exists(path.join(save_path, song_dir)):
+                os.makedirs(path.join(save_path, song_dir))
             file_path = path.join(save_path, file_name)
 
             mp3file_path = f"{file_path}.mp3"
