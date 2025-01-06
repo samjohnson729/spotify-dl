@@ -196,7 +196,7 @@ def spotify_dl():
         #url_dict["save_path"] = Path(
         #    PurePath.joinpath(Path(args.output), Path(directory_name))
         #)
-        url_dict["save_path"] = Path(PurePath.joinpath(Path(arge.output)))
+        url_dict["save_path"] = Path(PurePath.joinpath(Path(args.output)))
         url_dict["save_path"].mkdir(parents=True, exist_ok=True)
         #log.info("Saving songs to %s directory", directory_name)
         url_dict["songs"] = fetch_tracks(sp, item_type, item_id)
