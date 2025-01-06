@@ -192,12 +192,13 @@ def spotify_dl():
     for url in valid_urls:
         url_dict = {}
         item_type, item_id = parse_spotify_url(url)
-        directory_name = get_item_name(sp, item_type, item_id)
-        url_dict["save_path"] = Path(
-            PurePath.joinpath(Path(args.output), Path(directory_name))
-        )
+        #directory_name = get_item_name(sp, item_type, item_id)
+        #url_dict["save_path"] = Path(
+        #    PurePath.joinpath(Path(args.output), Path(directory_name))
+        #)
+        url_dict["save_path"] = Path(PurePath.joinpath(Path(arge.output)))
         url_dict["save_path"].mkdir(parents=True, exist_ok=True)
-        log.info("Saving songs to %s directory", directory_name)
+        #log.info("Saving songs to %s directory", directory_name)
         url_dict["songs"] = fetch_tracks(sp, item_type, item_id)
         url_data["urls"].append(url_dict.copy())
     if args.dump_json is True:
